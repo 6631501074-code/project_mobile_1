@@ -27,8 +27,9 @@ Future<void> loginMenu() async {
   } else {
     print("❌ Login failed : ${res.body}");
   }
-  
+
 }
+
 /// Main Menu Loop
 Future<void> appMenu(int userId, String username) async {
   while (true) {
@@ -45,26 +46,34 @@ Future<void> appMenu(int userId, String username) async {
 
     switch (choice) {
       case "1":
+        await showAllExpenses(userId);
+        break;
 
-        break;
-      case "2":
-
-        break;
-      case "3":
-
-        break;
-      case "4":
-
-        break;
-      case "5":
-        
-        break;
       case "6":
         print("---- 👋 Bye  -------");
-        return; 
+        return;
       default:
         print("⚠️ Invalid choice\n");
     }
   }
 }
 
+/// freture: Show all expenses
+Future<void> showAllExpenses(int userId) async {
+  final res = await http.get(
+    Uri.parse("http://localhost:3000/expenses?user_id=$userId"),
+  );
+  if (res.statusCode == 200) {
+    final data = jsonDecode(res.body);
+    print("------------ All expenses -----------");
+    int total = 0;
+    for (int i = 0; i < data.length; i++) {
+      var e = data[i];
+      print("${i + 1}. ${e['item']} : ${e['paid']}฿ : ${e['date']}");
+      total += (e['paid'] ?? 0) as int;
+    }
+    print("Total expenses = $total ฿\n");
+  } else {
+    print("⚠️ Error: ${res.body}");
+  }
+}
