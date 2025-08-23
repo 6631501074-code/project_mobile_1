@@ -1,12 +1,12 @@
 first stage
-[] database -> ben
-[] features login -> ben
+[] database -> Doid
+[] features login -> Doid
 
 second stage
-[] features all expenses -> ben
+[] features all expenses -> Doid
 [] today's expenses -> pub
 [] search expenses -> pub
-[] add new expenses -> doid
-[] delete expenses -> doid
+[] add new expenses -> ben
+[] delete expenses -> ben
 
 Use branch name features-"your working feature" which your name assign at ->
