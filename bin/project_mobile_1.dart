@@ -30,7 +30,7 @@ Future<void> loginMenu() async {
   
 }
 /// Main Menu Loop
-
+Future<void> appMenu(int userId, String username) async {
   while (true) {
     print("======== Expense Tracking App =========");
     print("Welcome ");
