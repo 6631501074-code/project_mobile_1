@@ -42,7 +42,14 @@ app.post('/login', async (req, res) => {
 // =================== Expenses ===================
 
 // All expenses for a user
-
+app.get("/expenses", (req, res) => {
+  const userId = req.query.user_id;
+  const sql = 'SELECT * FROM expense WHERE user_id = ?';
+  con.query(sql, [userId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
 
 // Today's expenses for a user
 
