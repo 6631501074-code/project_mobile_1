@@ -2,7 +2,33 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-void main(List<String> arguments) {
+void main() async {
+  await loginMenu();
+}
+
+/// Login Menu
+Future<void> loginMenu() async {
+  stdout.write("==== Login ====\nUsername: ");
+  String username = stdin.readLineSync()!;
+  stdout.write("Password: ");
+  String password = stdin.readLineSync()!;
+
+  final res = await http.post(
+    Uri.parse("http://localhost:3000/login"),
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode({"username": username, "password": password}),
+  );
+
+  if (res.statusCode == 200) {
+    final data = jsonDecode(res.body);
+    int userId = data['user_id']; // ดึง user_id จาก response
+    print("✅ Login success\n");
+    await appMenu(userId, username);
+  } else {
+    print("❌ Login failed : ${res.body}");
+  }
+  
+}
 /// Main Menu Loop
 
   while (true) {
