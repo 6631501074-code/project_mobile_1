@@ -13,7 +13,7 @@ Future<void> loginMenu() async {
   stdout.write("Password: ");
   String password = stdin.readLineSync()!;
 
-  final res = await http.post(
+     final res = await http.post(
     Uri.parse("http://localhost:3000/login"),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode({"username": username, "password": password}),
@@ -27,7 +27,6 @@ Future<void> loginMenu() async {
   } else {
     print("❌ Login failed : ${res.body}");
   }
-
 }
 
 /// Main Menu Loop
@@ -48,12 +47,35 @@ Future<void> appMenu(int userId, String username) async {
       case "1":
         await showAllExpenses(userId);
         break;
+      case "4":
+<<<<<<< HEAD
+         print("======== Add new item =========");
+          stdout.write("Item: ");
+          String item = stdin.readLineSync()!;
+          stdout.write("Paid: ");
+          int paid = int.parse(stdin.readLineSync()!);
+
+          final res = await http.post(
+            Uri.parse("http://localhost:3000/expenses"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({"user_id": userId, "item": item, "paid": paid}),
+          );
+
+          if (res.statusCode == 201) {
+            print("Inserted!\n");
+          } else {
+            print("Error: ${res.body}\n");
+          }
+
+=======
+>>>>>>> b8c1bf972e9b025b3fd5945ab79029cd3fceda4d
+        break;
 
       case "6":
-        print("---- 👋 Bye  -------");
+        print("---- Bye  -------");
         return;
       default:
-        print("⚠️ Invalid choice\n");
+        print("Invalid choice\n");
     }
   }
 }
