@@ -5,7 +5,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",       // ใส่ user ของ MySQL
   password: "",       // ใส่รหัสผ่านของ MySQL
-  database: "test1" // ใส่ชื่อฐานข้อมูล
+  database: "expenses" // ใส่ชื่อฐานข้อมูล
 });
 
 con.connect((err) => {
