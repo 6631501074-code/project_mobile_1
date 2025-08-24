@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html_common';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -47,28 +48,17 @@ Future<void> appMenu(int userId, String username) async {
       case "1":
         await showAllExpenses(userId);
         break;
+      case "2":
+        
+        break;
+      case "3":
+        
+        break;
       case "4":
-<<<<<<< HEAD
-         print("======== Add new item =========");
-          stdout.write("Item: ");
-          String item = stdin.readLineSync()!;
-          stdout.write("Paid: ");
-          int paid = int.parse(stdin.readLineSync()!);
+        
+        break;
+      case "5":
 
-          final res = await http.post(
-            Uri.parse("http://localhost:3000/expenses"),
-            headers: {"Content-Type": "application/json"},
-            body: jsonEncode({"user_id": userId, "item": item, "paid": paid}),
-          );
-
-          if (res.statusCode == 201) {
-            print("Inserted!\n");
-          } else {
-            print("Error: ${res.body}\n");
-          }
-
-=======
->>>>>>> b8c1bf972e9b025b3fd5945ab79029cd3fceda4d
         break;
 
       case "6":

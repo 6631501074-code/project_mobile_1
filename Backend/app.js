@@ -42,17 +42,12 @@ app.post('/login', async (req, res) => {
 // =================== Expenses ===================
 
 // All expenses for a user
-app.post("/expenses", (req, res) => {
-  const { user_id, item, paid } = req.body;
-  if (!user_id || !item || !paid) {
-    return res.status(400).send("Missing data");
-  }
-
-  const currentDate = new Date(); // เวลาปัจจุบัน
-  const sql = 'INSERT INTO expense (user_id, item, paid, date) VALUES (?,?,?,?)';
-  con.query(sql, [user_id, item, paid, currentDate], (err, result) => {
+app.get("/expenses", (req, res) => {
+  const userId = req.query.user_id;
+  const sql = 'SELECT * FROM expense WHERE user_id = ?';
+  con.query(sql, [userId], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ success: true, message: "Expense added", id: result.insertId });
+    res.json(results);
   });
 });
 
