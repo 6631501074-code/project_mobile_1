@@ -48,6 +48,7 @@ Future<void> appMenu(int userId, String username) async {
         await showAllExpenses(userId);
         break;
       case "4":
+<<<<<<< HEAD
          print("======== Add new item =========");
           stdout.write("Item: ");
           String item = stdin.readLineSync()!;
@@ -66,6 +67,8 @@ Future<void> appMenu(int userId, String username) async {
             print("Error: ${res.body}\n");
           }
 
+=======
+>>>>>>> b8c1bf972e9b025b3fd5945ab79029cd3fceda4d
         break;
 
       case "6":
