@@ -58,6 +58,20 @@ app.get("/expenses", (req, res) => {
 
 
 // Add new expense
+app.post("/expenses", (req, res) => {
+  const { user_id, item, paid } = req.body;
+  if (!user_id || !item || !paid) {
+    return res.status(400).send("Missing data");
+  }
+
+  const currentDate = new Date(); // เวลาปัจจุบัน
+  const sql = 'INSERT INTO expense (user_id, item, paid, date) VALUES (?,?,?,?)';
+  con.query(sql, [user_id, item, paid, currentDate], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: "Expense added", id: result.insertId });
+  });
+});
+
 
 
 // Delete expense by id

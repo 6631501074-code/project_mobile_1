@@ -49,6 +49,26 @@ Future<void> appMenu(int userId, String username) async {
         await showAllExpenses(userId);
         break;
 
+      case "4":
+         print("======== Add new item =========");
+          stdout.write("Item: ");
+          String item = stdin.readLineSync()!;
+          stdout.write("Paid: ");
+          int paid = int.parse(stdin.readLineSync()!);
+
+          final res = await http.post(
+            Uri.parse("http://localhost:3000/expenses"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({"user_id": userId, "item": item, "paid": paid}),
+          );
+
+          if (res.statusCode == 201) {
+            print("Inserted!\n");
+          } else {
+            print("Error: ${res.body}\n");
+          }
+
+        break;
       case "6":
         print("---- 👋 Bye  -------");
         return;
