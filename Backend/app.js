@@ -68,18 +68,6 @@ app.post("/expenses", (req, res) => {
   if (!user_id || !item || !paid) {
     return res.status(400).send("Missing data");
   }
-<<<<<<< HEAD
-
-  const currentDate = new Date(); // เวลาปัจจุบัน
-  const sql = 'INSERT INTO expense (user_id, item, paid, date) VALUES (?,?,?,?)';
-  con.query(sql, [user_id, item, paid, currentDate], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ success: true, message: "Expense added", id: result.insertId });
-  });
-});
-
-=======
->>>>>>> eb5eff114e642c86889175898bd694b6bd88574f
 
   const currentDate = new Date(); // เวลาปัจจุบัน
   const sql = 'INSERT INTO expense (user_id, item, paid, date) VALUES (?,?,?,?)';
