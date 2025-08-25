@@ -27,7 +27,6 @@ Future<void> loginMenu() async {
   } else {
     print("❌ Login failed : ${res.body}");
   }
-
 }
 
 /// Main Menu Loop
@@ -48,26 +47,42 @@ Future<void> appMenu(int userId, String username) async {
       case "1":
         await showAllExpenses(userId);
         break;
-        case "4":
-         print("======== Add new item =========");
-          stdout.write("Item: ");
-          String item = stdin.readLineSync()!;
-          stdout.write("Paid: ");
-          int paid = int.parse(stdin.readLineSync()!);
+      case "4":
+        print("======== Add new item =========");
+        stdout.write("Item: ");
+        String item = stdin.readLineSync()!;
+        stdout.write("Paid: ");
+        int paid = int.parse(stdin.readLineSync()!);
 
-          final res = await http.post(
-            Uri.parse("http://localhost:3000/expenses"),
-            headers: {"Content-Type": "application/json"},
-            body: jsonEncode({"user_id": userId, "item": item, "paid": paid}),
-          );
+        final res = await http.post(
+          Uri.parse("http://localhost:3000/expenses"),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode({"user_id": userId, "item": item, "paid": paid}),
+        );
 
-          if (res.statusCode == 201) {
-            print("Inserted!\n");
-          } else {
-            print("Error: ${res.body}\n");
-          }
+        if (res.statusCode == 201) {
+          print("Inserted!\n");
+        } else {
+          print("Error: ${res.body}\n");
+        }
 
         break;
+
+      case "5":
+          stdout.write("Enter expense ID to delete: ");
+          int id = int.parse(stdin.readLineSync()!);
+
+          final res = await http.delete(
+            Uri.parse("http://localhost:3000/expenses/$id?user_id=$userId"),
+          );
+
+          if (res.statusCode == 200) {
+            print("✅ Expense deleted\n");
+          } else {
+            print("⚠️ Error: ${res.body}\n");
+          }
+        break;
+
       case "6":
         print("---- 👋 Bye  -------");
         return;

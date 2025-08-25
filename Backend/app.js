@@ -73,7 +73,16 @@ app.post("/expenses", (req, res) => {
 });
 
 // Delete expense by id
-
+app.delete("/expenses/:id", (req, res) => {
+  const id = req.params.id;
+  const userId = req.query.user_id;
+  const sql = 'DELETE FROM expense WHERE id = ? AND user_id = ?';
+  con.query(sql, [id, userId], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.affectedRows === 0) return res.status(404).send("Expense not found");
+    res.json({ success: true, message: "Expense deleted" });
+  });
+});
 
 // =================== Test ===================
 
