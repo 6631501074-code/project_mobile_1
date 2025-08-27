@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -46,6 +47,23 @@ Future<void> appMenu(int userId, String username) async {
     switch (choice) {
       case "1":
         await showAllExpenses(userId);
+        break;
+      case "2":
+          final res = await http.get(
+            Uri.parse("http://localhost:3000/expenses/today_expense/?user_id=$userId"),
+          );
+        if (res.statusCode == 200){
+          final data = jsonDecode(res.body); 
+          print("-------------- Today's expenses --------------");
+          for(int i = 0; i < data.length; i++){
+            var temp = data[i];
+            print("${i + 1}. ${temp['item']} : ${temp['paid']} : ${(DateTime.parse(temp['date'])).toLocal()}");
+          }         
+          print("");
+        }
+        else{
+          print("Error: ${res.body} ");
+        }
         break;
       case "4":
         print("======== Add new item =========");
