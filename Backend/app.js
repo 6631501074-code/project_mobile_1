@@ -66,7 +66,15 @@ app.get("/expenses/today_expense", (req, res) => {
 });
 
 // Search expense by item keyword
-
+app.get("/expenses/search", (req, res) => {
+  const userId = req.query.user_id;
+  const item = req.query.item || '';
+  const sql = 'SELECT * FROM expense WHERE user_id = ? AND item LIKE ?';
+  con.query(sql, [userId, `%${item}%`], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
 
 // Add new expense
 app.post("/expenses", (req, res) => {
