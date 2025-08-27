@@ -52,7 +52,18 @@ app.get("/expenses", (req, res) => {
 });
 
 // Today's expenses for a user
-
+app.get("/expenses/today_expense", (req, res) => {
+  const userId = req.query.user_id;
+  const sql = `
+    SELECT * FROM expense 
+    WHERE user_id = ? 
+      AND DATE(date) = CURDATE()
+  `;
+  con.query(sql, [userId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
 
 // Search expense by item keyword
 
