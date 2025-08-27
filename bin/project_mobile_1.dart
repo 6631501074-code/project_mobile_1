@@ -49,20 +49,44 @@ Future<void> appMenu(int userId, String username) async {
         await showAllExpenses(userId);
         break;
       case "2":
-          final res = await http.get(
-            Uri.parse("http://localhost:3000/expenses/today_expense/?user_id=$userId"),
-          );
-        if (res.statusCode == 200){
-          final data = jsonDecode(res.body); 
+        final res = await http.get(
+          Uri.parse(
+            "http://localhost:3000/expenses/today_expense/?user_id=$userId",
+          ),
+        );
+        if (res.statusCode == 200) {
+          final data = jsonDecode(res.body);
           print("-------------- Today's expenses --------------");
-          for(int i = 0; i < data.length; i++){
+          for (int i = 0; i < data.length; i++) {
             var temp = data[i];
-            print("${i + 1}. ${temp['item']} : ${temp['paid']} : ${(DateTime.parse(temp['date'])).toLocal()}");
-          }         
+            print(
+              "${i + 1}. ${temp['item']} : ${temp['paid']} : ${(DateTime.parse(temp['date'])).toLocal()}",
+            );
+          }
           print("");
-        }
-        else{
+        } else {
           print("Error: ${res.body} ");
+        }
+        break;
+
+      case "3":
+        stdout.write("Item to search: ");
+        String keyword = stdin.readLineSync()!;
+        final res = await http.get(
+          Uri.parse(
+            "http://localhost:3000/expenses/search?user_id=$userId&item=$keyword",
+          ),
+        );
+        if (res.statusCode == 200) {
+          final data = jsonDecode(res.body);
+          print("------------ Search result -----------");
+          for (int i = 0; i < data.length; i++) {
+            var e = data[i];
+            print("${i + 1}. ${e['item']} : ${e['paid']}฿ : ${(DateTime.parse(e['date'])).toLocal()}");
+          }
+          print("");
+        } else {
+          print("Error: ${res.body}\n");
         }
         break;
       case "4":
@@ -87,18 +111,18 @@ Future<void> appMenu(int userId, String username) async {
         break;
 
       case "5":
-          stdout.write("Enter expense ID to delete: ");
-          int id = int.parse(stdin.readLineSync()!);
+        stdout.write("Enter expense ID to delete: ");
+        int id = int.parse(stdin.readLineSync()!);
 
-          final res = await http.delete(
-            Uri.parse("http://localhost:3000/expenses/$id?user_id=$userId"),
-          );
+        final res = await http.delete(
+          Uri.parse("http://localhost:3000/expenses/$id?user_id=$userId"),
+        );
 
-          if (res.statusCode == 200) {
-            print("✅ Expense deleted\n");
-          } else {
-            print("⚠️ Error: ${res.body}\n");
-          }
+        if (res.statusCode == 200) {
+          print("✅ Expense deleted\n");
+        } else {
+          print("⚠️ Error: ${res.body}\n");
+        }
         break;
 
       case "6":
